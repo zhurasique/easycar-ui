@@ -5,3 +5,7 @@ body {
 body, html, #root {
   height: 100%;
 }
+
+.ant-popover {
+  padding: 0;
+}

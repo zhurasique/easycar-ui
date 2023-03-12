@@ -7,6 +7,10 @@ export const FormCenter = styled.div<any>`
   .ant-form-item {
     margin-bottom: 10px;
   }
+  
+  button {
+    width: 100%;
+  }
 `;
 
 export const ErrorDiv = styled.div<any>`

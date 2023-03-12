@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input } from "antd";
 import { FormCenter, ErrorDiv } from "./Login.styled";
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import axios from "axios";
@@ -11,6 +11,7 @@ export const Login = () => {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [rememberMe, setRememberMe] = useState<boolean>(true);
     const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
     const { logIn } = UserAuth();
 
@@ -36,8 +37,11 @@ export const Login = () => {
     const tryLogin = () => {
         fetchToken()
             .then(res => {
-                localStorage.setItem('token', res.data.access_token);
-                logIn();
+                sessionStorage.setItem('token', res.data.access_token);
+                if (rememberMe) {
+                    localStorage.setItem('token', res.data.access_token);
+                }
+                logIn(false);
                 setErrorStatusCode(0);
             })
             .catch(error => {
@@ -86,14 +90,24 @@ export const Login = () => {
                        autoComplete={"current-password"}
                    />
                </Form.Item>
+               <Form.Item
+                   name="remember"
+               >
+                   <Checkbox
+                       checked={rememberMe}
+                       onChange={e => setRememberMe(e.target.checked)}
+                   >
+                       Remember me
+                   </Checkbox>
+               </Form.Item>
+
                <Form.Item style={{marginBottom: 0}}>
                    <Button
                        type="primary"
                        onClick={() => tryLogin()}
                    >
-                       Log in
+                       Log In
                    </Button>
-                   {/*Or <a href="">register now!</a>*/}
                </Form.Item>
                {errorStatusCode ? showError() : <></>}
            </Form>

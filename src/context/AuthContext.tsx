@@ -3,22 +3,25 @@ import axios from "axios";
 
 const UserContext = createContext({
     userData: null,
-    logIn: () => {},
+    logIn: (onLoad) => {},
     logOut: () => {},
+    loading: true
 });
 
 export const AuthProvider = ({ children }) => {
 
     const [userData, setUserData] = useState<any>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    const logIn = () => {
+    const logIn = (onLoad) => {
         const fetchUserData = async () => {
+            const token = onLoad ? localStorage.getItem("token") : sessionStorage.getItem("token")
             const SERVER_URI = "http://localhost:9191";
             return axios(
                 SERVER_URI + "/uaa/user/current",
                 {
                     headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("token")
+                        "Authorization": "Bearer " + token
                     }
                 }
             )
@@ -30,6 +33,9 @@ export const AuthProvider = ({ children }) => {
                 surname: res.data.surname
             }
             setUserData(data);
+            setLoading(false);
+        }).catch(error => {
+            setLoading(false);
         })
     }
 
@@ -38,12 +44,12 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        logIn();
+        logIn(true);
     }, [])
 
     return (
         <UserContext.Provider
-            value={{ userData, logIn, logOut }}
+            value={{ userData, logIn, logOut, loading }}
         >
             {children}
         </UserContext.Provider>
