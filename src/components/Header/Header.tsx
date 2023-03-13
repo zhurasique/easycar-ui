@@ -33,7 +33,8 @@ export const Header = () => {
             <div>
                 {loading ?
                     <Spin
-                        indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+                        indicator={<LoadingOutlined style={{ fontSize: 24 }} spin/>}
+                        delay={500}
                     /> :
                     userData ?
                         <Popover placement="bottomRight" content={userMenuPopoverContent} trigger="click">

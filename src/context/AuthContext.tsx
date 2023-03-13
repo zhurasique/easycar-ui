@@ -3,7 +3,7 @@ import axios from "axios";
 
 const UserContext = createContext({
     userData: null,
-    logIn: (username, password, rememberMe) => {},
+    logIn: (username, password, rememberMe, setLoading) => {},
     logOut: () => {},
     loading: true,
     accessToken: "",
@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }) => {
             })
     }
 
-    const logIn = (username, password, rememberMe) => {
+    const logIn = (username, password, rememberMe, _setLoading) => {
         fetchToken(username, password)
             .then(res => {
                 setAccessToken(res.data.access_token);
@@ -99,10 +99,12 @@ export const AuthProvider = ({ children }) => {
                     localStorage.setItem('refresh_token', res.data.refresh_token);
                 }
                 setStatusCode(0);
-                fetchUserData(res.data.access_token)
+                fetchUserData(res.data.access_token);
+                _setLoading(false);
             })
             .catch(error => {
                 setStatusCode(error.response.status ? error.response.status : 500);
+                _setLoading(false);
             })
     }
 
