@@ -9,11 +9,13 @@ export const Login = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [rememberMe, setRememberMe] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const { logIn, statusCode } = UserAuth();
 
 
     const tryLogin = () => {
-        logIn(username, password, rememberMe);
+        setLoading(true);
+        logIn(username, password, rememberMe, setLoading);
     }
 
     const showError = () => {
@@ -72,6 +74,8 @@ export const Login = () => {
                    <Button
                        type="primary"
                        onClick={() => tryLogin()}
+                       loading={loading}
+                       disabled={loading}
                    >
                        Log In
                    </Button>
