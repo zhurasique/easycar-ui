@@ -1,18 +1,57 @@
 import { Login } from "../index";
-import { HeaderDiv } from "./Header.styled";
-import { Button, Popover} from "antd";
+import { HeaderDiv, UserBox, UserMenuPopover } from "./Header.styled";
+import { Button, Popover, Spin } from "antd";
 import { UserAuth } from "../../context/AuthContext";
+import { LoadingOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 
 export const Header = () => {
-    const { userData } = UserAuth();
+    const { userData, loading, logOut } = UserAuth();
+
+    const userMenuPopoverContent = () => {
+        return (
+            <UserMenuPopover>
+                <div>
+                    <SettingOutlined />
+                    <p>Preferences</p>
+                </div>
+                <div
+                    className={"last"}
+                    onClick={() => logOut()}
+                >
+                    <LogoutOutlined />
+                    <p>Logout</p>
+                </div>
+            </UserMenuPopover>
+        )
+    }
 
     return (
         <HeaderDiv>
-            {userData ? <p>{userData!["name"]}</p>:
-                <Popover placement="bottomLeft" content={Login} trigger="click">
-                    <Button>Sign in</Button>
-                </Popover>
-            }
+            <div>
+                {loading ?
+                    <Spin
+                        indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+                    /> :
+                    userData ?
+                        <Popover placement="bottomRight" content={userMenuPopoverContent} trigger="click">
+                            <UserBox>
+                                <UserOutlined />
+                                <p>{userData!["name"]} {userData!["surname"]}</p>
+                            </UserBox>
+                        </Popover> :
+                        <>
+                            <Popover placement="bottomLeft" content={Login} trigger="click">
+                                <Button>
+                                    Log In
+                                </Button>
+                            </Popover>
+                            <Button type={"primary"}>
+                                Sign Up
+                            </Button>
+                        </>
+
+                }
+            </div>
         </HeaderDiv>
     )
 }

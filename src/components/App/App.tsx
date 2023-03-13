@@ -1,6 +1,6 @@
 import { GlobalLayout } from "./App.styled";
 import { AuthProvider } from "../../context/AuthContext";
-import {Header} from "../index";
+import { Header } from "../index";
 
 export const App = () => {
     return (

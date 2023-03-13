@@ -1,55 +1,26 @@
-import { Button, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input } from "antd";
 import { FormCenter, ErrorDiv } from "./Login.styled";
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import axios from "axios";
 import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
 
 export const Login = () => {
 
-    const SERVER_URI = "http://localhost:9191";
-
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
-    const { logIn } = UserAuth();
+    const [rememberMe, setRememberMe] = useState<boolean>(true);
+    const { logIn, statusCode } = UserAuth();
 
-
-    const fetchToken = async () => {
-        return axios(
-            SERVER_URI + "/uaa/oauth/token",
-            {
-                method: "POST",
-                headers: {
-                    "Authorization": "Basic YnJvd3Nlcjo="
-                },
-                data: new URLSearchParams({
-                    username: username,
-                    password: password,
-                    grant_type: "password",
-                    scope: "ui"
-                })
-            }
-        )
-    }
 
     const tryLogin = () => {
-        fetchToken()
-            .then(res => {
-                localStorage.setItem('token', res.data.access_token);
-                logIn();
-                setErrorStatusCode(0);
-            })
-            .catch(error => {
-                setErrorStatusCode(error.response.status);
-            })
+        logIn(username, password, rememberMe);
     }
 
     const showError = () => {
         let errorText = "Unknown error";
-        if (errorStatusCode === 400) {
+        if (statusCode === 400) {
             errorText = "Wrong credentials"
-        } else if (errorStatusCode === 500) {
+        } else if (statusCode === 500) {
             errorText = "Server error"
         }
         return (
@@ -86,16 +57,26 @@ export const Login = () => {
                        autoComplete={"current-password"}
                    />
                </Form.Item>
+               <Form.Item
+                   name="remember"
+               >
+                   <Checkbox
+                       checked={rememberMe}
+                       onChange={e => setRememberMe(e.target.checked)}
+                   >
+                       Remember me
+                   </Checkbox>
+               </Form.Item>
+
                <Form.Item style={{marginBottom: 0}}>
                    <Button
                        type="primary"
                        onClick={() => tryLogin()}
                    >
-                       Log in
+                       Log In
                    </Button>
-                   {/*Or <a href="">register now!</a>*/}
                </Form.Item>
-               {errorStatusCode ? showError() : <></>}
+               {statusCode ? showError() : <></>}
            </Form>
        </FormCenter>
     )

@@ -5,3 +5,11 @@ body {
 body, html, #root {
   height: 100%;
 }
+
+.ant-popover {
+  padding: 0;
+}
+
+.ant-btn:hover {
+  border: 1px solid #5246c7;
+}
