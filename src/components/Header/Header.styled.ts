@@ -2,9 +2,21 @@ import styled from "styled-components";
 
 export const HeaderDiv = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
   padding: 10px 20px 5px 20px;
   border-bottom: 1px solid #e5e3e3;
+  
+  h3 {
+    margin: 0;
+  }
+`;
+
+export const AuthButtons = styled.div`
+  button {
+    margin-left: 4px;
+  }
 `;
 
 export const UserBox = styled.div`

@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
                 fetchUserData(res.data.access_token)
             })
             .catch(error => {
-                setStatusCode(error.response.status);
+                setStatusCode(error.response.status ? error.response.status : 500);
             })
     }
 

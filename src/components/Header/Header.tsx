@@ -1,5 +1,5 @@
 import { Login } from "../index";
-import { HeaderDiv, UserBox, UserMenuPopover } from "./Header.styled";
+import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons } from "./Header.styled";
 import { Button, Popover, Spin } from "antd";
 import { UserAuth } from "../../context/AuthContext";
 import { LoadingOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
@@ -28,6 +28,9 @@ export const Header = () => {
     return (
         <HeaderDiv>
             <div>
+                <h3>EasyCar</h3>
+            </div>
+            <div>
                 {loading ?
                     <Spin
                         indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
@@ -39,7 +42,7 @@ export const Header = () => {
                                 <p>{userData!["name"]} {userData!["surname"]}</p>
                             </UserBox>
                         </Popover> :
-                        <>
+                        <AuthButtons>
                             <Popover placement="bottomLeft" content={Login} trigger="click">
                                 <Button>
                                     Log In
@@ -48,7 +51,7 @@ export const Header = () => {
                             <Button type={"primary"}>
                                 Sign Up
                             </Button>
-                        </>
+                        </AuthButtons>
 
                 }
             </div>
