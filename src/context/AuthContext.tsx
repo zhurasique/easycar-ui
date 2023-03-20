@@ -1,9 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../constants";
 
 const UserContext = createContext({
     userData: null,
-    logIn: (username, password, rememberMe, setLoading) => {},
+    logIn: (email, password, rememberMe, setLoading) => {},
+    logInOAuth2: (token) => {},
     logOut: () => {},
     loading: true,
     accessToken: "",
@@ -12,23 +14,21 @@ const UserContext = createContext({
 
 export const AuthProvider = ({ children }) => {
 
-    const SERVER_URI = "http://localhost:9191";
-
     const [userData, setUserData] = useState<any>(null);
     const [accessToken, setAccessToken] = useState<string>("");
     const [statusCode, setStatusCode] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const fetchToken = async (username, password) => {
+    const fetchToken = async (email, password) => {
         return axios(
-            SERVER_URI + "/uaa/oauth/token",
+            API_BASE_URL + "/uaa/oauth/token",
             {
                 method: "POST",
                 headers: {
                     "Authorization": "Basic YnJvd3Nlcjo="
                 },
                 data: new URLSearchParams({
-                    username: username,
+                    username: email,
                     password: password,
                     grant_type: "password",
                     scope: "ui"
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
     const refreshToken = async (token) => {
         return axios(
-            SERVER_URI + "/uaa/oauth/token",
+            API_BASE_URL + "/uaa/oauth/token",
             {
                 method: "POST",
                 headers: {
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUserData = (token) => {
         const fetchUserData = async () => {
             return axios(
-                SERVER_URI + "/uaa/user/current",
+                API_BASE_URL + "/uaa/user/current",
                 {
                     headers: {
                         "Authorization": "Bearer " + token
@@ -67,9 +67,7 @@ export const AuthProvider = ({ children }) => {
         }
         fetchUserData().then(res => {
             const data = {
-                email: res.data.username,
-                name: res.data.name,
-                surname: res.data.surname
+                email: res.data.username
             }
             setUserData(data);
             setLoading(false);
@@ -91,8 +89,8 @@ export const AuthProvider = ({ children }) => {
             })
     }
 
-    const logIn = (username, password, rememberMe, _setLoading) => {
-        fetchToken(username, password)
+    const logIn = (email, password, rememberMe, _setLoading) => {
+        fetchToken(email, password)
             .then(res => {
                 setAccessToken(res.data.access_token);
                 if (rememberMe) {
@@ -106,6 +104,10 @@ export const AuthProvider = ({ children }) => {
                 setStatusCode(error.response.status ? error.response.status : 500);
                 _setLoading(false);
             })
+    }
+
+    const logInOAuth2 = (token) => {
+        fetchUserData(token);
     }
 
     const logOut = () => {
@@ -124,7 +126,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{ userData, logIn, logOut, loading, accessToken, statusCode }}
+            value={{ userData, logIn, logInOAuth2, logOut, loading, accessToken, statusCode }}
         >
             {children}
         </UserContext.Provider>

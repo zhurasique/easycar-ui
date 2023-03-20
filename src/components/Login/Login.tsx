@@ -1,12 +1,13 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import { FormCenter, ErrorDiv } from "./Login.styled";
+import {FormCenter, ErrorDiv, OAuth2Item } from "./Login.styled";
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
+import { GOOGLE_AUTH_URL } from "../../constants";
 
 export const Login = () => {
 
-    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [rememberMe, setRememberMe] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(false);
@@ -15,7 +16,7 @@ export const Login = () => {
 
     const tryLogin = () => {
         setLoading(true);
-        logIn(username, password, rememberMe, setLoading);
+        logIn(email, password, rememberMe, setLoading);
     }
 
     const showError = () => {
@@ -41,8 +42,8 @@ export const Login = () => {
                    hasFeedback
                >
                    <Input
-                       value={username}
-                       onChange={(e) => setUsername(e.target.value)}
+                       value={email}
+                       onChange={(e) => setEmail(e.target.value)}
                        prefix={<UserOutlined className="site-form-item-icon" />}
                        placeholder="Email"
                        autoComplete={"email"}
@@ -69,7 +70,6 @@ export const Login = () => {
                        Remember me
                    </Checkbox>
                </Form.Item>
-
                <Form.Item style={{marginBottom: 0}}>
                    <Button
                        type="primary"
@@ -80,6 +80,17 @@ export const Login = () => {
                        Log In
                    </Button>
                </Form.Item>
+               <h4>Or</h4>
+               <a href={GOOGLE_AUTH_URL}>
+                   <OAuth2Item>
+                       <div>
+                           <img src={require("../../assets/images/google-logo.png")}/>
+                       </div>
+                       <div>
+                           <p>Log in with Google</p>
+                       </div>
+                   </OAuth2Item>
+               </a>
                {statusCode ? showError() : <></>}
            </Form>
        </FormCenter>

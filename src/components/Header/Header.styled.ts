@@ -13,6 +13,11 @@ export const HeaderDiv = styled.div`
   }
 `;
 
+export const LogoDiv = styled.div`
+  cursor: pointer;
+  color: black;
+`;
+
 export const AuthButtons = styled.div`
   button {
     margin-left: 4px;

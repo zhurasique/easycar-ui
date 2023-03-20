@@ -1,5 +1,11 @@
 export const Home = () => {
-    return <></>
+    const responseMessage = (response) => {
+        console.log(response);
+    };
+
+    return (
+        <></>
+    )
 }
 
 export default Home

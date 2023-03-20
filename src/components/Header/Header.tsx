@@ -1,8 +1,9 @@
 import { Login } from "../index";
-import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons } from "./Header.styled";
+import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons, LogoDiv } from "./Header.styled";
 import { Button, Popover, Spin } from "antd";
 import { UserAuth } from "../../context/AuthContext";
 import { LoadingOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import {Link} from "react-router-dom";
 
 export const Header = () => {
     const { userData, loading, logOut } = UserAuth();
@@ -27,9 +28,11 @@ export const Header = () => {
 
     return (
         <HeaderDiv>
-            <div>
-                <h3>EasyCar</h3>
-            </div>
+            <Link to={"/"}>
+                <LogoDiv>
+                    <h3>EasyCar</h3>
+                </LogoDiv>
+            </Link>
             <div>
                 {loading ?
                     <Spin
@@ -49,9 +52,11 @@ export const Header = () => {
                                     Log In
                                 </Button>
                             </Popover>
-                            <Button type={"primary"}>
-                                Sign Up
-                            </Button>
+                            <Link to="/signup">
+                                <Button type={"primary"}>
+                                    Sign Up
+                                </Button>
+                            </Link>
                         </AuthButtons>
 
                 }
