@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 
-const Protected = (props, { children }) => {
+const Protected = ({ authorized, children}) => {
     const { userData } = UserAuth();
-    if ((props.protected && !userData) || (props.unauthenticated && userData)) {
+    if ((authorized && !userData) || (!authorized && userData)) {
         return <Navigate to="/" />;
     }
     return children;

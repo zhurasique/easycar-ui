@@ -3,6 +3,7 @@ import { Home } from "../../pages/Home/Home";
 import { Login } from "../../pages/Login/Login";
 import { Signup } from "../../pages/Signup/Signup";
 import Protected from "../../pages/Protected";
+import OAuth2RedirectHandler from "../OAuth2RedirectHandler/OAuth2RedirectHandler";
 
 export const Content = () => {
     return (
@@ -14,7 +15,9 @@ export const Content = () => {
             <Route
                 path="/login"
                 element={
-                    <Protected unauthenticated={true}>
+                    <Protected
+                        authorized={false}
+                    >
                         <Login />
                     </Protected>
                 }
@@ -22,11 +25,23 @@ export const Content = () => {
             <Route
                 path="/signup"
                 element={
-                    <Protected unauthenticated={true}>
+                    <Protected
+                        authorized={false}
+                    >
                         <Signup />
                     </Protected>
                 }
             />
+            <Route
+                path="/oauth2/redirect"
+                element={
+                    <Protected
+                        authorized={false}
+                    >
+                        <OAuth2RedirectHandler />
+                    </Protected>
+                }>
+            </Route>
         </Routes>
     )
 }
