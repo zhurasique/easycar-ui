@@ -15,6 +15,7 @@ export const Signup = () => {
 
     return (
         <Layout>
+
             <h4>Before we start...</h4>
             <SignupForm>
                 <Form.Item
@@ -86,7 +87,7 @@ export const Signup = () => {
                         placeholder="Confirm password"
                     />
                 </Form.Item>
-                <Form.Item style={{marginBottom: 0}}>
+                <Form.Item>
                     <Button
                         type="primary"
                         //onClick={() => tryLogin()}
