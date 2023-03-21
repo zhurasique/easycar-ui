@@ -1,5 +1,5 @@
 import { Login } from "../index";
-import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons, LogoDiv } from "./Header.styled";
+import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons, LogoDiv, HeaderSection } from "./Header.styled";
 import { Button, Popover, Spin } from "antd";
 import { UserAuth } from "../../context/AuthContext";
 import { LoadingOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
@@ -27,41 +27,43 @@ export const Header = () => {
     }
 
     return (
-        <HeaderDiv>
-            <Link to={"/"}>
-                <LogoDiv>
-                    <h3>EasyCar</h3>
-                </LogoDiv>
-            </Link>
-            <div>
-                {loading ?
-                    <Spin
-                        indicator={<LoadingOutlined style={{ fontSize: 24 }} spin/>}
-                        delay={500}
-                    /> :
-                    userData ?
-                        <Popover placement="bottomRight" content={userMenuPopoverContent} trigger="click">
-                            <UserBox>
-                                <UserOutlined />
-                                <p>{userData!["name"]} {userData!["surname"]}</p>
-                            </UserBox>
-                        </Popover> :
-                        <AuthButtons>
-                            <Popover placement="bottomRight" content={<Login showLabel={false} />} trigger="click">
-                                <Button>
-                                    Log In
-                                </Button>
-                            </Popover>
-                            <Link to="/signup">
-                                <Button type={"primary"}>
-                                    Sign Up
-                                </Button>
-                            </Link>
-                        </AuthButtons>
+        <HeaderSection>
+            <HeaderDiv>
+                <Link to={"/"}>
+                    <LogoDiv>
+                        <h3>EasyCar</h3>
+                    </LogoDiv>
+                </Link>
+                <div>
+                    {loading ?
+                        <Spin
+                            indicator={<LoadingOutlined style={{ fontSize: 24 }} spin/>}
+                            delay={500}
+                        /> :
+                        userData ?
+                            <Popover placement="bottomRight" content={userMenuPopoverContent} trigger="click">
+                                <UserBox>
+                                    <UserOutlined />
+                                    <p>{userData!["name"]} {userData!["surname"]}</p>
+                                </UserBox>
+                            </Popover> :
+                            <AuthButtons>
+                                <Popover placement="bottomRight" content={<Login showLabel={false} />} trigger="click">
+                                    <Button>
+                                        Log In
+                                    </Button>
+                                </Popover>
+                                <Link to="/signup">
+                                    <Button type={"primary"}>
+                                        Sign Up
+                                    </Button>
+                                </Link>
+                            </AuthButtons>
 
-                }
-            </div>
-        </HeaderDiv>
+                    }
+                </div>
+            </HeaderDiv>
+        </HeaderSection>
     )
 }
 
