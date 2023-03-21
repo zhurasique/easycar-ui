@@ -1,11 +1,14 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import {FormCenter, ErrorDiv, OAuth2Item } from "./Login.styled";
+import { FormCenter, ErrorDiv, OAuth2ItemGoogle, OAuth2ItemFacebook, ManualLogin, OAuth2Login, SignupPropose } from "./Login.styled";
 import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
-import { GOOGLE_AUTH_URL } from "../../constants";
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "../../constants";
+import { ReactComponent as GoogleLogo } from '../../assets/images/google-logo.svg';
+import { ReactComponent as FacebookLogo } from '../../assets/images/facebook-logo.svg';
+import { Link } from "react-router-dom";
 
-export const Login = () => {
+export const Login = ({showLabel}) => {
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -36,63 +39,88 @@ export const Login = () => {
 
     return (
        <FormCenter>
-           <Form>
-               <Form.Item
-                   name="email"
-                   hasFeedback
-               >
-                   <Input
-                       value={email}
-                       onChange={(e) => setEmail(e.target.value)}
-                       prefix={<UserOutlined className="site-form-item-icon" />}
-                       placeholder="Email"
-                       autoComplete={"email"}
-                   />
-               </Form.Item>
-               <Form.Item
-                   name="password"
-               >
-                   <Input.Password
-                       value={password}
-                       onChange={(e) => setPassword(e.target.value)}
-                       prefix={<LockOutlined className="site-form-item-icon" />}
-                       placeholder="Password"
-                       autoComplete={"current-password"}
-                   />
-               </Form.Item>
-               <Form.Item
-                   name="remember"
-               >
-                   <Checkbox
-                       checked={rememberMe}
-                       onChange={e => setRememberMe(e.target.checked)}
+           <ManualLogin>
+               <Form>
+                   {showLabel ? <p>Email</p> : <></>}
+                   <Form.Item
+                       name="email"
+                       hasFeedback
                    >
-                       Remember me
-                   </Checkbox>
-               </Form.Item>
-               <Form.Item style={{marginBottom: 0}}>
-                   <Button
-                       type="primary"
-                       onClick={() => tryLogin()}
-                       loading={loading}
-                       disabled={loading}
+                       <Input
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
+                           prefix={<UserOutlined className="site-form-item-icon" />}
+                           placeholder={showLabel ? "" : "Email"}
+                           autoComplete={"email"}
+                       />
+                   </Form.Item>
+                   {showLabel ? <p>Password</p> : <></>}
+                   <Form.Item
+                       name="password"
                    >
-                       Log In
-                   </Button>
-               </Form.Item>
-               <h4>Or</h4>
+                       <Input.Password
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}
+                           prefix={<LockOutlined className="site-form-item-icon" />}
+                           placeholder={showLabel ? "" : "Password"}
+                           autoComplete={"current-password"}
+                       />
+                   </Form.Item>
+                   <Form.Item
+                       name="remember"
+                   >
+                       <Checkbox
+                           checked={rememberMe}
+                           onChange={e => setRememberMe(e.target.checked)}
+                       >
+                           Remember me
+                       </Checkbox>
+                   </Form.Item>
+                   <Form.Item style={{marginBottom: 0}}>
+                       <Button
+                           type="primary"
+                           onClick={() => tryLogin()}
+                           loading={loading}
+                           disabled={loading}
+                       >
+                           Log In
+                       </Button>
+                   </Form.Item>
+                   {statusCode ? showError() : <></>}
+               </Form>
+           </ManualLogin>
+           <OAuth2Login>
+               <h4 style={showLabel ? {} : {margin: 0}}>Or</h4>
                <a href={GOOGLE_AUTH_URL}>
-                   <OAuth2Item>
+                   <OAuth2ItemGoogle>
                        <div>
-                           <img src={require("../../assets/images/google-logo.png")}/>
+                           <GoogleLogo />
                        </div>
                        <div>
                            <p>Log in with Google</p>
                        </div>
-                   </OAuth2Item>
+                   </OAuth2ItemGoogle>
                </a>
-               {statusCode ? showError() : <></>}
-           </Form>
+               <a href={FACEBOOK_AUTH_URL}>
+                   <OAuth2ItemFacebook>
+                       <div>
+                           <FacebookLogo />
+                       </div>
+                       <div>
+                           <p>Log in with Facebook</p>
+                       </div>
+                   </OAuth2ItemFacebook>
+               </a>
+           </OAuth2Login>
+           {showLabel ?
+               <SignupPropose>
+                   <p>Don't have an account?
+                       <Link to={"/signup"}>
+                           <span>Sign up</span>
+                       </Link>
+                   </p>
+               </SignupPropose> : <></>
+           }
        </FormCenter>
     )
 }

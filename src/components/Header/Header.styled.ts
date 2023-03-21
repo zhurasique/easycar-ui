@@ -7,6 +7,11 @@ export const HeaderDiv = styled.div`
   align-items: center;
   padding: 10px 20px 5px 20px;
   border-bottom: 1px solid #e5e3e3;
+  max-width: 1200px;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 20px;
   
   h3 {
     margin: 0;

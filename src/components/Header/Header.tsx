@@ -3,7 +3,7 @@ import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons, LogoDiv } from "./Hea
 import { Button, Popover, Spin } from "antd";
 import { UserAuth } from "../../context/AuthContext";
 import { LoadingOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
     const { userData, loading, logOut } = UserAuth();
@@ -47,7 +47,7 @@ export const Header = () => {
                             </UserBox>
                         </Popover> :
                         <AuthButtons>
-                            <Popover placement="bottomLeft" content={Login} trigger="click">
+                            <Popover placement="bottomRight" content={<Login showLabel={false} />} trigger="click">
                                 <Button>
                                     Log In
                                 </Button>

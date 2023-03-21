@@ -6,6 +6,6 @@ export const Layout = styled.div`
 `;
 
 export const SignupForm = styled.div`
-  max-width: 1200px;
+  max-width: 600px;
   margin: auto;
 `;

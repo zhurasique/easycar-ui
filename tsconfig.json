@@ -17,5 +17,8 @@
     "noImplicitAny": false,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "src/react-app-env.d.ts"
+  ]
 }
