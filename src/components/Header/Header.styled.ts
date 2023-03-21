@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const HeaderSection = styled.div`
+  border-top: 2px solid #5246c7;
+`;
+
 export const HeaderDiv = styled.div`
   display: flex;
   justify-content: space-between;

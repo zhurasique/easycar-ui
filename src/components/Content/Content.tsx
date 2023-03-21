@@ -5,11 +5,16 @@ import { Signup } from "../../pages/Signup/Signup";
 import Protected from "../../pages/Protected";
 import OAuth2RedirectHandler from "../OAuth2RedirectHandler/OAuth2RedirectHandler";
 import { MainContent } from "./Content.styled";
+import { NotFound } from "../../pages/NotFound/NotFound";
 
 export const Content = () => {
     return (
         <MainContent>
             <Routes>
+                <Route
+                    path="*"
+                    element={<NotFound />}
+                />
                 <Route
                     path="/"
                     element={<Home />}
