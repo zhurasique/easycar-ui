@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUserData = (token) => {
         const fetchUserData = async () => {
             return axios(
-                API_BASE_URL + "/uaa/user/current",
+                API_BASE_URL + "/account/current",
                 {
                     headers: {
                         "Authorization": "Bearer " + token
@@ -72,6 +72,7 @@ export const AuthProvider = ({ children }) => {
             setUserData(data);
             setLoading(false);
         }).catch(error => {
+            console.log(error)
             setLoading(false);
         })
     }
@@ -86,6 +87,7 @@ export const AuthProvider = ({ children }) => {
             })
             .catch(error => {
                 setStatusCode(error.response.status);
+                setLoading(false);
             })
     }
 
