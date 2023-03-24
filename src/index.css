@@ -13,10 +13,6 @@ input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 
-.ant-popover {
-  padding: 0;
-}
-
 .ant-checkbox-checked .ant-checkbox-inner,
 .ant-input-affix-wrapper-focused,
 .ant-btn-default:hover {
