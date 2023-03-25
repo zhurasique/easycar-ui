@@ -1,8 +1,8 @@
-import { Login } from "../index";
+import {EmptyUserPhoto, Login} from "../index";
 import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons, LogoDiv, HeaderSection } from "./Header.styled";
 import { Button, Popover, Spin } from "antd";
 import { UserAuth } from "../../context/AuthContext";
-import { LoadingOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 
 export const Header = () => {
@@ -43,7 +43,12 @@ export const Header = () => {
                         userData ?
                             <Popover placement="bottomRight" content={userMenuPopoverContent} trigger="click">
                                 <UserBox>
-                                    <UserOutlined />
+                                    {userData!["photo"] ?
+                                        <img src={"data:image/png;base64, " + userData!["photo"]} alt={"photo"} /> :
+                                        <EmptyUserPhoto
+                                            nameFirstLetter={String(userData!["name"]).charAt(0)}
+                                        />
+                                    }
                                     <p>{userData!["name"]} {userData!["surname"]}</p>
                                 </UserBox>
                             </Popover> :

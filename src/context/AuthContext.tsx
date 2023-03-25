@@ -67,7 +67,10 @@ export const AuthProvider = ({ children }) => {
         }
         fetchUserData().then(res => {
             const data = {
-                email: res.data.username
+                email: res.data.username,
+                name: res.data.name,
+                surname: res.data.surname,
+                photo: res.data.photo
             }
             setUserData(data);
             setLoading(false);
@@ -88,6 +91,7 @@ export const AuthProvider = ({ children }) => {
             .catch(error => {
                 setStatusCode(error.response.status);
                 setLoading(false);
+                localStorage.removeItem('refresh_token');
             })
     }
 
