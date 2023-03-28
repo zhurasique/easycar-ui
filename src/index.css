@@ -1,7 +1,5 @@
 body {
   margin: 0;
-  --firstColor: #5246c7;
-  --secondColor: #7f76e3;
 }
 
 body, html, #root {
@@ -11,28 +9,4 @@ body, html, #root {
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
-}
-
-.ant-checkbox-checked .ant-checkbox-inner,
-.ant-input-affix-wrapper-focused,
-.ant-btn-default:hover {
-  border-color: var(--firstColor) !important;
-}
-
-.ant-input-affix-wrapper:hover,
-.ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner {
-  border-color: var(--secondColor) !important;
-}
-
-.ant-btn-default:hover {
-  color: var(--firstColor) !important;
-}
-
-.ant-btn-primary,
-.ant-checkbox-checked .ant-checkbox-inner {
-  background-color: var(--firstColor) !important;
-}
-
-.ant-btn-primary:hover {
-  background-color: var(--secondColor) !important;
 }
