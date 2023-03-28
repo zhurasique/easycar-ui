@@ -8,16 +8,26 @@ import { MainContent } from "./Content.styled";
 import { NotFound } from "../../pages/NotFound/NotFound";
 
 export const Content = () => {
+    const suffix = " - EasyCar";
+
     return (
         <MainContent>
             <Routes>
                 <Route
                     path="*"
-                    element={<NotFound />}
+                    element={
+                        <NotFound
+                            title={"Page not found" + suffix}
+                        />
+                    }
                 />
                 <Route
                     path="/"
-                    element={<Home />}
+                    element={
+                        <Home
+                            title={"EasyCar - that's da cars!"}
+                        />
+                    }
                 />
                 <Route
                     path="/login"
@@ -25,7 +35,9 @@ export const Content = () => {
                         <Protected
                             authorized={false}
                         >
-                            <Login />
+                            <Login
+                                title={"Login" + suffix}
+                            />
                         </Protected>
                     }
                 />
@@ -35,7 +47,9 @@ export const Content = () => {
                         <Protected
                             authorized={false}
                         >
-                            <Signup />
+                            <Signup
+                                title={"Signup" + suffix}
+                            />
                         </Protected>
                     }
                 />
@@ -45,7 +59,9 @@ export const Content = () => {
                         <Protected
                             authorized={false}
                         >
-                            <OAuth2RedirectHandler />
+                            <OAuth2RedirectHandler
+                                title={"Login" + suffix}
+                            />
                         </Protected>
                     }>
                 </Route>

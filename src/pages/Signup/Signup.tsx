@@ -3,7 +3,7 @@ import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined, UserAddOutlined, PhoneOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
-export const Signup = () => {
+export const Signup = (props) => {
 
     const [name, setName] = useState<string>("");
     const [surname, setSurname] = useState<string>("");
@@ -12,6 +12,8 @@ export const Signup = () => {
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+
+    document.title = props.title;
 
     return (
         <Layout>

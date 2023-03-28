@@ -1,7 +1,10 @@
 import { Container, Info, BackPropose } from "./NotFound.styled"
 import { Link } from "react-router-dom";
 
-export const NotFound = () => {
+export const NotFound = (props) => {
+
+    document.title = props.title;
+
     return (
         <Container>
             <div>
