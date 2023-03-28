@@ -7,7 +7,7 @@ export const OAuth2RedirectHandler = () => {
     const { logInOAuth2 } = UserAuth();
 
     useEffect(() => {
-        logInOAuth2(searchParams.get("token"));
+        logInOAuth2(searchParams.get("access_token"));
         const refreshToken = searchParams.get("refresh_token");
         if (refreshToken) {
             localStorage.setItem("refresh_token", refreshToken);
