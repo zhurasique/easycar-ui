@@ -19,6 +19,8 @@ export const AuthProvider = ({ children }) => {
     const [statusCode, setStatusCode] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
 
+    let requesting = false;
+
     const fetchToken = async (email, password) => {
         return axios(
             API_BASE_URL + "/uaa/oauth/token",
@@ -74,25 +76,11 @@ export const AuthProvider = ({ children }) => {
             }
             setUserData(data);
             setLoading(false);
+            requesting = false;
         }).catch(error => {
-            console.log(error)
             setLoading(false);
+            requesting = false;
         })
-    }
-
-    const reLogIn = (token) => {
-        refreshToken(token)
-            .then(res => {
-                setAccessToken(res.data.access_token);
-                localStorage.setItem('refresh_token', res.data.refresh_token);
-                setStatusCode(0);
-                fetchUserData(res.data.access_token)
-            })
-            .catch(error => {
-                setStatusCode(error.response.status);
-                setLoading(false);
-                localStorage.removeItem('refresh_token');
-            })
     }
 
     const logIn = (email, password, rememberMe, _setLoading) => {
@@ -114,6 +102,22 @@ export const AuthProvider = ({ children }) => {
 
     const logInOAuth2 = (token) => {
         fetchUserData(token);
+        requesting = true;
+    }
+
+    const reLogIn = (token) => {
+        refreshToken(token)
+            .then(res => {
+                setAccessToken(res.data.access_token);
+                localStorage.setItem('refresh_token', res.data.refresh_token);
+                setStatusCode(0);
+                fetchUserData(res.data.access_token)
+            })
+            .catch(error => {
+                setStatusCode(error.response.status);
+                setLoading(false);
+                localStorage.removeItem('refresh_token');
+            })
     }
 
     const logOut = () => {
@@ -123,7 +127,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const refreshToken = localStorage.getItem("refresh_token");
-        if (refreshToken) {
+        if (refreshToken && !requesting) {
             reLogIn(refreshToken);
         } else {
             setLoading(false);
