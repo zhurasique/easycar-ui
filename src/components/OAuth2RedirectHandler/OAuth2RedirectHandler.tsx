@@ -2,9 +2,12 @@ import { useSearchParams } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
 import { useEffect } from "react";
 
-export const OAuth2RedirectHandler = () => {
+export const OAuth2RedirectHandler = (props) => {
+
     const [searchParams] = useSearchParams();
     const { logInOAuth2 } = UserAuth();
+
+    document.title = props.title;
 
     useEffect(() => {
         logInOAuth2(searchParams.get("access_token"));

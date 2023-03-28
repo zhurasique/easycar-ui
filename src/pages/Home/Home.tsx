@@ -1,7 +1,6 @@
-export const Home = () => {
-    const responseMessage = (response) => {
-        console.log(response);
-    };
+export const Home = (props) => {
+
+    document.title = props.title;
 
     return (
         <></>
