@@ -1,5 +1,5 @@
-import {Buttons, Layout, Step, SecondStep, Block, Previous} from "./Signup.styled"
-import { Button, Form, Input, Steps } from "antd";
+import { Buttons, Layout, Step, SecondStep, Block, Previous, Form } from "./Signup.styled"
+import { Button, Input, Steps, theme } from "antd";
 import {
     LockOutlined,
     UserOutlined,
@@ -9,7 +9,8 @@ import {
     ArrowRightOutlined,
     CheckOutlined,
     InfoCircleOutlined,
-    ArrowLeftOutlined
+    ArrowLeftOutlined,
+    CheckCircleTwoTone
 } from "@ant-design/icons";
 import React, { useState } from "react";
 import axios from "axios";
@@ -20,7 +21,7 @@ import { ErrorDiv } from "../../components/Login/Login.styled";
 
 export const Signup = (props) => {
 
-    const [current, setCurrent] = useState(0);
+    const [current, setCurrent] = useState<number>(0);
     const [name, setName] = useState<string>("");
     const [surname, setSurname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -28,99 +29,152 @@ export const Signup = (props) => {
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const { logIn, statusCode } = UserAuth();
+    const { token } = theme.useToken();
 
     document.title = props.title;
 
     const firstContent = () => {
         return (
-            <>
-                <p>Name</p>
-                <Form.Item
-                    name="name"
-                    hasFeedback
-                >
+            <Form>
+                <div>
+                    <p>Name</p>
                     <Input
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => changeName(e.target.value)}
                         prefix={<UserOutlined className="site-form-item-icon" />}
+                        suffix={isValidName() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <></>}
                         autoComplete={"name"}
                         placeholder={"Piotr"}
                     />
-                </Form.Item>
-                <p>Surname</p>
-                <Form.Item
-                    name="surname"
-                    hasFeedback
-                >
+                </div>
+                <div>
+                    <p>Surname</p>
                     <Input
                         value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
+                        onChange={(e) => changeSurname(e.target.value)}
                         prefix={<UserAddOutlined className="site-form-item-icon" />}
+                        suffix={isValidSurname() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <></>}
                         autoComplete={"surname"}
                         placeholder={"Fisz"}
                     />
-                </Form.Item>
-                <p>Phone number</p>
-                <Form.Item
-                    name="phone"
-                    hasFeedback
-                >
+                </div>
+                <div>
+                    <p>Phone number</p>
                     <Input
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={(e) => changePhoneNumber(e.target.value)}
                         prefix={<><PhoneOutlined className="site-form-item-icon" /><span>+48</span></>}
-                        suffix={"🇵🇱"}
+                        suffix={isValidPhoneNumber() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <>🇵🇱</>}
                         autoComplete={"phone"}
                         placeholder={"123 456 789"}
                     />
-                </Form.Item>
-            </>
+                </div>
+            </Form>
         )
     }
 
     const secondContent = () => {
         return (
-            <SecondStep>
-                <div>
-                     <p>Data which will be used for future login</p>
-                </div>
-                <p>Email</p>
-                <Form.Item
-                    name="email"
-                    hasFeedback
-                >
-                    <Input
-                        type={"email"}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        prefix={<MailOutlined className="site-form-item-icon" />}
-                        autoComplete={"email"}
-                        placeholder={"piotr.fisz@gmail.com"}
-                    />
-                </Form.Item>
-                <p>Password</p>
-                <Form.Item
-                    name="password"
-                >
-                    <Input.Password
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        prefix={<LockOutlined className="site-form-item-icon" />}
-                        autoComplete={"current-password"}
-                    />
-                </Form.Item>
-            </SecondStep>
+            <Form>
+                <SecondStep>
+                    <div className={"hint"}>
+                        <p>Data which will be used for future login</p>
+                    </div>
+                    <div>
+                        <p>Email</p>
+                        <Input
+                            type={"email"}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            prefix={<MailOutlined className="site-form-item-icon" />}
+                            suffix={isValidEmail() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <></>}
+                            autoComplete={"email"}
+                            placeholder={"piotr.fisz@gmail.com"}
+                        />
+                    </div>
+                    <div>
+                        <p>Password</p>
+                        <Input.Password
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            prefix={<LockOutlined className="site-form-item-icon" />}
+                            autoComplete={"current-password"}
+                            placeholder={"✖✖✖✖✖✖"}
+                        />
+                    </div>
+                </SecondStep>
+            </Form>
         )
+    }
+
+    const changeName = (v) => {
+        if (v.length <= 15) {
+            setName(v);
+        } else if (v === "") {
+            setName("");
+        }
+    }
+
+    const changeSurname = (v) => {
+        if (v.length <= 15) {
+            setSurname(v);
+        } else if (v === "") {
+            setSurname("");
+        }
+    }
+
+    const changePhoneNumber = (v) => {
+        let trim = v.replaceAll(" ", "");
+        if (phoneNumber[phoneNumber.length - 1] === " " && v.length < phoneNumber.length) {
+            trim = trim.slice(0, -1);
+        }
+        if (trim.length <= 9) {
+            let result = "";
+            for (let i = 0; i < trim.length; i++) {
+                result += trim[i];
+                for (let j = 2; j < 8; j = j + 3) {
+                    if (i === j) {
+                        result += " ";
+                    }
+                }
+            }
+            setPhoneNumber(result)
+        } else if (v === "") {
+            setPhoneNumber("")
+        }
+    }
+
+    const isValidName = () => {
+        return name.length > 1;
+    }
+
+    const isValidSurname = () => {
+        return surname.length > 1;
+    }
+
+    const isValidPhoneNumber = () => {
+        return phoneNumber.replaceAll(" ", "").length === 9;
+    }
+
+    const isValidEmail = () => {
+        const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        return email.toLowerCase().match(emailRegex);
+    }
+
+    const isValidPassword = () => {
+        return password.length >= 6;
     }
 
     const steps = [
         {
             title: 'Your data',
             content: firstContent(),
+            valid: isValidName() && isValidSurname() && isValidPhoneNumber()
         },
         {
             title: 'Login data',
             content: secondContent(),
+            valid: isValidEmail() && isValidPassword()
         },
     ];
 
@@ -154,7 +208,7 @@ export const Signup = (props) => {
                         },
                         account: {
                             username: email,
-                            phoneNumber: phoneNumber,
+                            phoneNumber: phoneNumber.trim(),
                             name: name,
                             surname: surname
                         }
@@ -188,6 +242,7 @@ export const Signup = (props) => {
                     <Button
                         type="primary"
                         onClick={() => setCurrent(current + 1)}
+                        disabled={!steps[current].valid}
                     >
                         Next <ArrowRightOutlined />
                     </Button>
@@ -198,7 +253,7 @@ export const Signup = (props) => {
                             type="primary"
                             onClick={() => signup()}
                             loading={loading}
-                            disabled={loading}
+                            disabled={loading || !steps[current].valid}
                         >
                             Sign up <CheckOutlined />
                         </Button>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Layout = styled.div`
   text-align: center;
   max-width: 950px;
-  margin: auto;
+  margin: 60px auto;
   border: 2px dashed #dedcdc;
   padding: 5px 5px 15px;
   background-color: white;
@@ -16,9 +16,14 @@ export const Layout = styled.div`
   }
 `;
 
+export const Form = styled.div`
+  div {
+    padding-top: 20px;
+  }
+`;
+
 export const Step = styled.div`
   text-align: left;
-  padding-top: 25px;
   max-width: 250px;
   margin: auto;
   height: 250px;
@@ -37,16 +42,15 @@ export const Buttons = styled.div`
 `;
 
 export const SecondStep = styled.div`
-  
-  div {
+  .hint {
     text-align: center;
+    padding-top: 35px;
     
     p {
       margin: 0;
       color: #4a4a4a;
       font-size: 10px;
       font-weight: bold;
-      padding-bottom: 45px;
     }
   }
 `;
