@@ -21,6 +21,8 @@ export const ManualLogin = styled.div<any>`
   p {
     text-align: left;
     margin: 0;
+    color: #4a4a4a;
+    font-size: 12px;
     font-weight: bold;
   }
 `;
