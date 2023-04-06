@@ -1,5 +1,16 @@
-import { Buttons, Layout, Step, SecondStep, Block, Previous, Form } from "./Signup.styled"
-import { Button, Input, Steps, theme } from "antd";
+import {
+    Buttons,
+    Layout,
+    Step,
+    SecondStep,
+    Block,
+    Previous,
+    Form,
+    OAuth2Login,
+    InputWithTip,
+    TipContainer
+} from "./Signup.styled"
+import {Button, Input, Steps, theme} from "antd";
 import {
     LockOutlined,
     UserOutlined,
@@ -10,14 +21,17 @@ import {
     CheckOutlined,
     InfoCircleOutlined,
     ArrowLeftOutlined,
-    CheckCircleTwoTone
+    CheckCircleTwoTone,
+    InfoCircleTwoTone
 } from "@ant-design/icons";
 import React, { useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../../constants";
+import {API_BASE_URL, FACEBOOK_AUTH_URL, GOOGLE_AUTH_URL} from "../../constants";
 import { redirect } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
-import { ErrorDiv } from "../../components/Login/Login.styled";
+import {ErrorDiv, OAuth2ItemFacebook, OAuth2ItemGoogle} from "../../components/Login/Login.styled";
+import { ReactComponent as GoogleLogo } from '../../assets/images/google-logo.svg';
+import { ReactComponent as FacebookLogo } from '../../assets/images/facebook-logo.svg';
 
 export const Signup = (props) => {
 
@@ -42,7 +56,7 @@ export const Signup = (props) => {
                         value={name}
                         onChange={(e) => changeName(e.target.value)}
                         prefix={<UserOutlined className="site-form-item-icon" />}
-                        suffix={isValidName() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <></>}
+                        suffix={isValidName() && (<CheckCircleTwoTone twoToneColor={token.colorPrimary} />)}
                         autoComplete={"name"}
                         placeholder={"Piotr"}
                     />
@@ -53,7 +67,7 @@ export const Signup = (props) => {
                         value={surname}
                         onChange={(e) => changeSurname(e.target.value)}
                         prefix={<UserAddOutlined className="site-form-item-icon" />}
-                        suffix={isValidSurname() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <></>}
+                        suffix={isValidSurname() && (<CheckCircleTwoTone twoToneColor={token.colorPrimary} />)}
                         autoComplete={"surname"}
                         placeholder={"Fisz"}
                     />
@@ -64,7 +78,7 @@ export const Signup = (props) => {
                         value={phoneNumber}
                         onChange={(e) => changePhoneNumber(e.target.value)}
                         prefix={<><PhoneOutlined className="site-form-item-icon" /><span>+48</span></>}
-                        suffix={isValidPhoneNumber() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <>🇵🇱</>}
+                        suffix={isValidPhoneNumber() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary} /> : <>🇵🇱</>}
                         autoComplete={"phone"}
                         placeholder={"123 456 789"}
                     />
@@ -87,20 +101,28 @@ export const Signup = (props) => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             prefix={<MailOutlined className="site-form-item-icon" />}
-                            suffix={isValidEmail() ? <CheckCircleTwoTone twoToneColor={token.colorPrimary}/> : <></>}
+                            suffix={isValidEmail() && (<CheckCircleTwoTone twoToneColor={token.colorPrimary} />)}
                             autoComplete={"email"}
                             placeholder={"piotr.fisz@gmail.com"}
                         />
                     </div>
                     <div>
                         <p>Password</p>
-                        <Input.Password
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            prefix={<LockOutlined className="site-form-item-icon" />}
-                            autoComplete={"current-password"}
-                            placeholder={"✖✖✖✖✖✖"}
-                        />
+                        <InputWithTip>
+                            <Input.Password
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                autoComplete={"current-password"}
+                                placeholder={"✖✖✖✖✖✖"}
+                            />
+                            <TipContainer>
+                                <InfoCircleTwoTone
+                                    twoToneColor={token.colorPrimary}
+                                    title={"Password should be at least 6 characters long."}
+                                />
+                            </TipContainer>
+                        </InputWithTip>
                     </div>
                 </SecondStep>
             </Form>
@@ -225,53 +247,80 @@ export const Signup = (props) => {
     }
 
     return (
-        <Layout>
-            <h3>Registration</h3>
-            <p>Before we start...</p>
-            <Steps
-                labelPlacement={"vertical"}
-                current={current}
-                items={items}
-                size={"small"}
-            />
-            <Step>
-                <div>{steps[current].content}</div>
-            </Step>
-            <Buttons>
-                {current < steps.length - 1 && (
-                    <Button
-                        type="primary"
-                        onClick={() => setCurrent(current + 1)}
-                        disabled={!steps[current].valid}
-                    >
-                        Next <ArrowRightOutlined />
-                    </Button>
-                )}
-                {current === steps.length - 1 && (
-                    <Block>
+        <>
+            <Layout>
+                <h3>Registration</h3>
+                <p>Before we start...</p>
+                <Steps
+                    labelPlacement={"vertical"}
+                    current={current}
+                    items={items}
+                    size={"small"}
+                />
+                <Step>
+                    <div>{steps[current].content}</div>
+                </Step>
+                <Buttons>
+                    {current < steps.length - 1 && (
                         <Button
                             type="primary"
-                            onClick={() => signup()}
-                            loading={loading}
-                            disabled={loading || !steps[current].valid}
+                            onClick={() => setCurrent(current + 1)}
+                            disabled={!steps[current].valid}
                         >
-                            Sign up <CheckOutlined />
+                            Next <ArrowRightOutlined />
                         </Button>
-                        {statusCode ? showError() : <></>}
-                    </Block>
-                )}
-                {current > 0 && (
-                    <Previous>
-                        <Button
-                            shape="circle"
-                            onClick={() => setCurrent(current - 1)}
-                        >
-                            <ArrowLeftOutlined />
-                        </Button>
-                    </Previous>
-                )}
-            </Buttons>
-        </Layout>
+                    )}
+                    {current === steps.length - 1 && (
+                        <Block>
+                            <Button
+                                type="primary"
+                                onClick={() => signup()}
+                                loading={loading}
+                                disabled={loading || !steps[current].valid}
+                            >
+                                Sign up <CheckOutlined />
+                            </Button>
+                            {statusCode ? showError() : <></>}
+                        </Block>
+                    )}
+                    {current > 0 && (
+                        <Previous>
+                            <Button
+                                shape="circle"
+                                onClick={() => setCurrent(current - 1)}
+                            >
+                                <ArrowLeftOutlined />
+                            </Button>
+                        </Previous>
+                    )}
+                </Buttons>
+            </Layout>
+            {current === 0 && (
+                <OAuth2Login>
+                    <h4>Or</h4>
+                    <a href={GOOGLE_AUTH_URL}>
+                        <OAuth2ItemGoogle>
+                            <div>
+                                <GoogleLogo />
+                            </div>
+                            <div>
+                                <p>Sign in with Google</p>
+                            </div>
+                        </OAuth2ItemGoogle>
+                    </a>
+                    <a href={FACEBOOK_AUTH_URL}>
+                        <OAuth2ItemFacebook>
+                            <div>
+                                <FacebookLogo />
+                            </div>
+                            <div>
+                                <p>Sign in with Facebook</p>
+                            </div>
+                        </OAuth2ItemFacebook>
+                    </a>
+                </OAuth2Login>
+            )}
+        </>
     )
 }
 
