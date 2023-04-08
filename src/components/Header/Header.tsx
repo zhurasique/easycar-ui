@@ -1,9 +1,19 @@
 import {EmptyUserPhoto, Login} from "../index";
-import { HeaderDiv, UserBox, UserMenuPopover, AuthButtons, LogoDiv, HeaderSection } from "./Header.styled";
+import {
+    HeaderDiv,
+    UserBox,
+    UserMenuPopover,
+    AuthButtons,
+    LogoDiv,
+    HeaderSection,
+    Flex,
+    SellButton
+} from "./Header.styled";
 import { Button, Popover, Spin } from "antd";
 import { UserAuth } from "../../context/AuthContext";
-import { LoadingOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SettingOutlined, LogoutOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import React from "react";
 
 export const Header = () => {
     const { userData, loading, logOut } = UserAuth();
@@ -29,11 +39,23 @@ export const Header = () => {
     return (
         <HeaderSection>
             <HeaderDiv>
-                <Link to={"/"}>
-                    <LogoDiv>
-                        <h3>EasyCar</h3>
-                    </LogoDiv>
-                </Link>
+                <Flex>
+                    <div>
+                        <Link to={"/"}>
+                            <LogoDiv>
+                                <h3>EasyCar</h3>
+                            </LogoDiv>
+                        </Link>
+                    </div>
+                    <SellButton>
+                        <Link to={"/"}>
+                            <Button>
+                                <PlusOutlined />
+                                Sell car
+                            </Button>
+                        </Link>
+                    </SellButton>
+                </Flex>
                 <div>
                     {loading ?
                         <Spin

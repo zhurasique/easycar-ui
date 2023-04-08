@@ -91,3 +91,24 @@ export const UserMenuPopover = styled.div`
     padding-top: 10px;
   }
 `;
+
+export const Flex = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const SellButton = styled.div`
+  margin-left: 45px;
+
+  button {
+    background-color: #44d423;
+    color: white;
+    font-weight: bold;
+    border-color: white;
+  }
+
+  button:hover {
+    border-color: #44d423 !important;
+    color: #c6edbb !important;
+  }
+`;
