@@ -30,8 +30,8 @@ import {API_BASE_URL, FACEBOOK_AUTH_URL, GOOGLE_AUTH_URL} from "../../constants"
 import { redirect } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
 import {ErrorDiv, OAuth2ItemFacebook, OAuth2ItemGoogle} from "../../components/Login/Login.styled";
-import { ReactComponent as GoogleLogo } from '../../assets/images/google-logo.svg';
-import { ReactComponent as FacebookLogo } from '../../assets/images/facebook-logo.svg';
+import { ReactComponent as GoogleLogo } from '../../assets/images/logo/google-logo.svg';
+import { ReactComponent as FacebookLogo } from '../../assets/images/logo/facebook-logo.svg';
 
 export const Signup = (props) => {
 
