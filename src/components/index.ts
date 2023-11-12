@@ -1,4 +1,7 @@
 export { default as App } from "./App/App"
 export { default as Header } from "./Header/Header"
+export { default as Footer } from "./Footer/Footer"
 export { default as Login } from "./Login/Login"
 export { default as EmptyUserPhoto } from "./EmptyUserPhoto/EmptyUserPhoto"
+export { default as Advert } from "./Advert/Advert"
+export { default as Ad } from "./Ad/Ad"

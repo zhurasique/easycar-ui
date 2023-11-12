@@ -102,9 +102,9 @@ export const SellButton = styled.div`
 
   button {
     background-color: #44d423;
-    color: white;
+    color: #f5f5f5;
     font-weight: bold;
-    border-color: white;
+    border-color: #f5f5f5;
   }
 
   button:hover {

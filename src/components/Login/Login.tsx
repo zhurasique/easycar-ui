@@ -4,8 +4,8 @@ import { LockOutlined, UserOutlined, InfoCircleOutlined } from '@ant-design/icon
 import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "../../constants";
-import { ReactComponent as GoogleLogo } from '../../assets/images/google-logo.svg';
-import { ReactComponent as FacebookLogo } from '../../assets/images/facebook-logo.svg';
+import { ReactComponent as GoogleLogo } from '../../assets/images/logo/google-logo.svg';
+import { ReactComponent as FacebookLogo } from '../../assets/images/logo/facebook-logo.svg';
 import { Link } from "react-router-dom";
 
 export const Login = ({showLabel}) => {

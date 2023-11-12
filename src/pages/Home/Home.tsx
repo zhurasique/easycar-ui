@@ -2,6 +2,7 @@ import React from "react";
 import {Block, Flex, Layout, Searchbar} from "./Home.styled";
 import {Button, Select} from "antd";
 import {SearchOutlined} from '@ant-design/icons';
+import {Ad, Advert} from "../../components";
 
 export const Home = (props) => {
 
@@ -9,107 +10,120 @@ export const Home = (props) => {
 
     return (
         <Layout>
-            <Searchbar>
-                <Flex>
-                    <Block>
-                        <div>
+            <Flex className={"padding-bottom"}>
+                <Searchbar>
+                    <Flex>
+                        <Block>
                             <div>
-                                <p>Brand</p>
+                                <div>
+                                    <p>Brand</p>
+                                </div>
+                                <div>
+                                    <Select
+                                        defaultValue={"-1"}
+                                        options={[
+                                            { value: "-1", label: "No matter"},
+                                            { value: "1", label: "BMW"},
+                                            { value: "2", label: "Mercedes-Benz"},
+                                            { value: "3", label: "Audi"},
+                                        ]}
+                                    />
+                                </div>
                             </div>
                             <div>
-                                <Select
-                                    defaultValue={"-1"}
-                                    options={[
-                                        { value: "-1", label: "No matter"},
-                                        { value: "1", label: "BMW"},
-                                        { value: "2", label: "Mercedes-Benz"},
-                                        { value: "3", label: "Audi"},
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <p>Price up to</p>
-                            </div>
-                            <div>
-                                <Select
-                                    defaultValue={"-1"}
-                                    options={[
-                                        { value: "-1", label: "No matter"},
-                                        { value: "1", label: "BMW"},
-                                        { value: "2", label: "Mercedes-Benz"},
-                                        { value: "3", label: "Audi"},
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <p>Location</p>
+                                <div>
+                                    <p>Price up to</p>
+                                </div>
+                                <div>
+                                    <Select
+                                        defaultValue={"-1"}
+                                        options={[
+                                            { value: "-1", label: "No matter"},
+                                            { value: "1", label: "BMW"},
+                                            { value: "2", label: "Mercedes-Benz"},
+                                            { value: "3", label: "Audi"},
+                                        ]}
+                                    />
+                                </div>
                             </div>
                             <div>
-                                <Select
-                                    defaultValue={"-1"}
-                                    options={[
-                                        { value: "-1", label: "No matter"},
-                                        { value: "1", label: "BMW"},
-                                        { value: "2", label: "Mercedes-Benz"},
-                                        { value: "3", label: "Audi"},
-                                    ]}
-                                />
+                                <div>
+                                    <p>Location</p>
+                                </div>
+                                <div>
+                                    <Select
+                                        defaultValue={"-1"}
+                                        options={[
+                                            { value: "-1", label: "No matter"},
+                                            { value: "1", label: "BMW"},
+                                            { value: "2", label: "Mercedes-Benz"},
+                                            { value: "3", label: "Audi"},
+                                        ]}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    </Block>
-                    <Block>
-                        <div>
+                        </Block>
+                        <Block>
                             <div>
-                                <p>Model</p>
+                                <div>
+                                    <p>Model</p>
+                                </div>
+                                <div>
+                                    <Select
+                                        defaultValue={"-1"}
+                                        options={[
+                                            { value: "-1", label: "No matter"},
+                                            { value: "1", label: "BMW"},
+                                            { value: "2", label: "Mercedes-Benz"},
+                                            { value: "3", label: "Audi"},
+                                        ]}
+                                    />
+                                </div>
                             </div>
                             <div>
-                                <Select
-                                    defaultValue={"-1"}
-                                    options={[
-                                        { value: "-1", label: "No matter"},
-                                        { value: "1", label: "BMW"},
-                                        { value: "2", label: "Mercedes-Benz"},
-                                        { value: "3", label: "Audi"},
-                                    ]}
-                                />
+                                <div>
+                                    <p>First registration</p>
+                                </div>
+                                <div>
+                                    <Select
+                                        defaultValue={"-1"}
+                                        options={[
+                                            { value: "-1", label: "No matter"},
+                                            { value: "1", label: "BMW"},
+                                            { value: "2", label: "Mercedes-Benz"},
+                                            { value: "3", label: "Audi"},
+                                        ]}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div>
                             <div>
-                                <p>First registration</p>
+                                <Button
+                                    type={"primary"}
+                                >
+                                    <Flex>
+                                        <SearchOutlined />
+                                        <div>
+                                            <p>Show results</p>
+                                            <p>4332</p>
+                                        </div>
+                                    </Flex>
+                                </Button>
                             </div>
-                            <div>
-                                <Select
-                                    defaultValue={"-1"}
-                                    options={[
-                                        { value: "-1", label: "No matter"},
-                                        { value: "1", label: "BMW"},
-                                        { value: "2", label: "Mercedes-Benz"},
-                                        { value: "3", label: "Audi"},
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <Button
-                               type={"primary"}
-                            >
-                                <Flex>
-                                    <SearchOutlined />
-                                    <div>
-                                        <p>Show results</p>
-                                        <p>4332</p>
-                                    </div>
-                                </Flex>
-                            </Button>
-                        </div>
-                    </Block>
-                </Flex>
-            </Searchbar>
+                        </Block>
+                    </Flex>
+                </Searchbar>
+                <Ad/>
+            </Flex>
+            <div>
+                <Advert/>
+                <Advert/>
+                <Advert/>
+                <Advert/>
+                <Advert/>
+                <Advert/>
+                <Advert/>
+                <Advert/>
+            </div>
         </Layout>
     )
 }

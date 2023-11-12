@@ -1,6 +1,6 @@
 import { GlobalLayout } from "./App.styled";
 import { AuthProvider } from "../../context/AuthContext";
-import { Header } from "../index";
+import { Header, Footer } from "../index";
 import Content from "../Content/Content";
 import { ConfigProvider } from "antd";
 
@@ -17,6 +17,7 @@ export const App = () => {
                 <GlobalLayout>
                     <Header />
                     <Content />
+                    <Footer />
                 </GlobalLayout>
             </ConfigProvider>
         </AuthProvider>

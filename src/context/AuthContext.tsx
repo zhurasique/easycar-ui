@@ -13,8 +13,8 @@ const UserContext = createContext({
 });
 
 export const AuthProvider = ({ children }) => {
-
-    const [userData, setUserData] = useState<any>(null);
+    const cachedUserData = localStorage.getItem("user_data");
+    const [userData, setUserData] = useState<any>(cachedUserData ? JSON.parse(cachedUserData) : null);
     const [accessToken, setAccessToken] = useState<string>("");
     const [statusCode, setStatusCode] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
@@ -75,6 +75,7 @@ export const AuthProvider = ({ children }) => {
                 photo: res.data.photo
             }
             setUserData(data);
+            localStorage.setItem("user_data", JSON.stringify(data));
             setLoading(false);
             requesting = false;
         }).catch(error => {
@@ -117,12 +118,14 @@ export const AuthProvider = ({ children }) => {
                 setStatusCode(error.response.status);
                 setLoading(false);
                 localStorage.removeItem('refresh_token');
+                localStorage.removeItem('user_data');
             })
     }
 
     const logOut = () => {
         localStorage.removeItem('refresh_token');
         setUserData(null);
+        localStorage.removeItem('user_data');
     }
 
     useEffect(() => {

@@ -2,8 +2,12 @@ import styled from "styled-components";
 
 
 export const Layout = styled.div`
-  max-width: 1165px;
+  max-width: 1255px;
   margin: auto;
+
+  .padding-bottom {
+    padding-bottom: 15px;
+  }
 `;
 
 export const Searchbar = styled.div`
@@ -11,6 +15,8 @@ export const Searchbar = styled.div`
   background-color: white;
   border: 1px solid #5246c7;
   max-width: 350px;
+  min-width: 350px;
+  max-height: 240px;
   border-radius: 15px;
   
   p {

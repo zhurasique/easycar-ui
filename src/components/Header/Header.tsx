@@ -9,18 +9,26 @@ import {
     Flex,
     SellButton
 } from "./Header.styled";
-import { Button, Popover, Spin } from "antd";
+import { Button, Popover } from "antd";
 import { UserAuth } from "../../context/AuthContext";
-import { LoadingOutlined, SettingOutlined, LogoutOutlined, PlusOutlined } from '@ant-design/icons';
+import { SettingOutlined, LogoutOutlined, PlusOutlined, CarOutlined, StarOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import React from "react";
 
 export const Header = () => {
-    const { userData, loading, logOut } = UserAuth();
+    const { userData, logOut } = UserAuth();
 
     const userMenuPopoverContent = () => {
         return (
             <UserMenuPopover>
+                <div>
+                    <CarOutlined />
+                    <p>My adverts</p>
+                </div>
+                <div>
+                    <StarOutlined />
+                    <p>Bookmarks</p>
+                </div>
                 <div>
                     <SettingOutlined />
                     <p>Preferences</p>
@@ -57,36 +65,29 @@ export const Header = () => {
                     </SellButton>
                 </Flex>
                 <div>
-                    {loading ?
-                        <Spin
-                            indicator={<LoadingOutlined style={{ fontSize: 24 }} spin/>}
-                            delay={500}
-                        /> :
-                        userData ?
-                            <Popover placement="bottomRight" content={userMenuPopoverContent} trigger="click">
-                                <UserBox>
-                                    {userData!["photo"] ?
-                                        <img src={"data:image/png;base64, " + userData!["photo"]} alt={"photo"} /> :
-                                        <EmptyUserPhoto
-                                            nameFirstLetter={String(userData!["name"]).charAt(0)}
-                                        />
-                                    }
-                                    <p>{userData!["name"]} {userData!["surname"]}</p>
-                                </UserBox>
-                            </Popover> :
-                            <AuthButtons>
-                                <Popover placement="bottomRight" content={<Login showLabel={false} />} trigger="click">
-                                    <Button>
-                                        Log In
-                                    </Button>
-                                </Popover>
-                                <Link to="/signup">
-                                    <Button type={"primary"}>
-                                        Sign Up
-                                    </Button>
-                                </Link>
-                            </AuthButtons>
-
+                    {userData ? <Popover placement="bottomRight" content={userMenuPopoverContent} trigger="click">
+                            <UserBox>
+                                {userData!["photo"] ?
+                                    <img src={"data:image/png;base64, " + userData!["photo"]} alt={"photo"} /> :
+                                    <EmptyUserPhoto
+                                        nameFirstLetter={String(userData!["name"]).charAt(0)}
+                                    />
+                                }
+                                <p>{userData!["name"]} {userData!["surname"]}</p>
+                            </UserBox>
+                        </Popover> :
+                        <AuthButtons>
+                            <Popover placement="bottomRight" content={<Login showLabel={false} />} trigger="click">
+                                <Button>
+                                    Log In
+                                </Button>
+                            </Popover>
+                            <Link to="/signup">
+                                <Button type={"primary"}>
+                                    Sign Up
+                                </Button>
+                            </Link>
+                        </AuthButtons>
                     }
                 </div>
             </HeaderDiv>
