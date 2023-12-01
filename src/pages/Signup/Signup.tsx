@@ -42,7 +42,7 @@ export const Signup = (props) => {
     const [password, setPassword] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const { logIn, statusCode } = UserAuth();
+    const { logIn, status } = UserAuth();
     const { token } = theme.useToken();
 
     document.title = props.title;
@@ -114,7 +114,7 @@ export const Signup = (props) => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 prefix={<LockOutlined className="site-form-item-icon" />}
                                 autoComplete={"current-password"}
-                                placeholder={"✖✖✖✖✖✖"}
+                                placeholder={"xxxxxx"}
                             />
                             <TipContainer>
                                 <InfoCircleTwoTone
@@ -204,9 +204,9 @@ export const Signup = (props) => {
 
     const showError = () => {
         let errorText = "Unknown error";
-        if (statusCode === 400) {
+        if (status === 400) {
             errorText = "Wrong credentials"
-        } else if (statusCode === 500) {
+        } else if (status === 500) {
             errorText = "Server error"
         }
         return (
@@ -280,7 +280,7 @@ export const Signup = (props) => {
                             >
                                 Sign up <CheckOutlined />
                             </Button>
-                            {statusCode ? showError() : <></>}
+                            {status ? showError() : <></>}
                         </Block>
                     )}
                     {current > 0 && (

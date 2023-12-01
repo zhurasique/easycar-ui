@@ -43,7 +43,7 @@ export const BackPropose = styled.div<any>`
   
   span {
     padding-left: 5px;
-    color: #5246c7;
+    color: #000000;
     cursor: pointer;
   }
 

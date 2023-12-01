@@ -14,7 +14,7 @@ export const Login = ({showLabel}) => {
     const [password, setPassword] = useState<string>("");
     const [rememberMe, setRememberMe] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(false);
-    const { logIn, statusCode } = UserAuth();
+    const { logIn, status } = UserAuth();
 
 
     const tryLogin = () => {
@@ -24,9 +24,9 @@ export const Login = ({showLabel}) => {
 
     const showError = () => {
         let errorText = "Unknown error";
-        if (statusCode === 400) {
+        if (status === 400) {
             errorText = "Wrong credentials"
-        } else if (statusCode === 500) {
+        } else if (status === 500) {
             errorText = "Server error"
         }
         return (
@@ -86,7 +86,7 @@ export const Login = ({showLabel}) => {
                            Log In
                        </Button>
                    </Form.Item>
-                   {statusCode ? showError() : <></>}
+                   {status ? showError() : <></>}
                </Form>
            </ManualLogin>
            <OAuth2Login>

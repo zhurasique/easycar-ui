@@ -73,8 +73,8 @@ export const OAuth2ItemGoogle = styled.div<any>`
   max-height: 40px;
   
   :hover {
-    border: 1px solid #7f76e3;
-    color: #5246c7;
+    border: 1px solid;
+    color: #000000;
   }
   
   p {
@@ -108,7 +108,7 @@ export const SignupPropose = styled.div<any>`
   
   span {
     padding-left: 5px;
-    color: #5246c7;
+    color: #000000;
     cursor: pointer;
   }
   

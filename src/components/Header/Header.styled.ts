@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const HeaderSection = styled.div`
-  border-top: 3px solid #5246c7;
+  border-top: 3px solid #000000;
 `;
 
 export const HeaderDiv = styled.div`
@@ -24,7 +24,7 @@ export const HeaderDiv = styled.div`
 
 export const LogoDiv = styled.div`
   cursor: pointer;
-  color: black;
+  color: rgb(101 101 101);
   margin-bottom: 12px;
   margin-top: 15px;
 `;
@@ -33,6 +33,10 @@ export const AuthButtons = styled.div`
   button {
     margin-left: 4px;
     margin-bottom: 4px;
+  }
+  
+  button:hover {
+    color: #9a9a9a !important;
   }
 `;
 
@@ -44,7 +48,7 @@ export const UserBox = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0);
 
   :hover {
-    border-bottom: 1px solid #5246c7;
+    border-bottom: 1px solid #000000;
   }
 
   p {
@@ -52,11 +56,11 @@ export const UserBox = styled.div`
   }
 
   &:hover p {
-    color: #5246c7;
+    color: #000000;
   }
 
   &:hover svg {
-    color: #5246c7;
+    color: #000000;
   }
 
   img {
@@ -74,11 +78,11 @@ export const UserMenuPopover = styled.div`
     cursor: pointer;
 
     &:hover p {
-      color: #5246c7;
+      color: #9a9a9a;
     }
 
     &:hover svg {
-      color: #5246c7;
+      color: #9a9a9a;
     }
   }
 
@@ -101,14 +105,14 @@ export const SellButton = styled.div`
   margin-left: 45px;
 
   button {
-    background-color: #44d423;
+    background-color: #000000;
     color: #f5f5f5;
     font-weight: bold;
     border-color: #f5f5f5;
   }
 
   button:hover {
-    border-color: #44d423 !important;
-    color: #c6edbb !important;
+    border-color: #000000 !important;
+    color: #9a9a9a !important;
   }
 `;
