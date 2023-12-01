@@ -13,7 +13,7 @@ export const Layout = styled.div`
 export const Searchbar = styled.div`
   padding: 15px;
   background-color: white;
-  border: 1px solid #5246c7;
+  border: 1px solid #9a9a9a;
   max-width: 350px;
   min-width: 350px;
   max-height: 240px;
@@ -39,16 +39,20 @@ export const Searchbar = styled.div`
   .ant-select-arrow {
     top: 40% !important;
   }
-}
   
   button {
     height: 100%;
     width: 100%;
-    
+
     p {
       color: white;
       margin: 0;
       padding: 0;
+    }
+  }
+
+  button:hover {
+    color: #9a9a9a !important;
   }
 `;
 

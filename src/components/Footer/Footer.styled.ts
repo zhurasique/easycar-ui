@@ -7,13 +7,16 @@ export const FooterSection = styled.div`
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 60px;
-  padding-bottom: 100px;
+  padding-top: 30px;
   color: #b0b0b0;
   background-color: #f5f5f5;
 
   p {
     margin: unset;
+  }
+  
+  a {
+    color: unset;
   }
 `;
 

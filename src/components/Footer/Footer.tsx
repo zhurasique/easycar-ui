@@ -2,14 +2,19 @@ import React from "react";
 
 import { GithubOutlined, LinkedinOutlined } from '@ant-design/icons';
 import { Copywrite, FooterSection, Links, Suggestions } from "./Footer.styled";
+import { GITHUB_URL, LINKEDIN_URL } from "../../constants";
 
 export const Footer = () => {
     return (
         <FooterSection>
             <Copywrite>
                 <Links>
-                    <GithubOutlined />
-                    <LinkedinOutlined />
+                    <a target="_blank" href={GITHUB_URL}>
+                        <GithubOutlined />
+                    </a>
+                    <a target="_blank" href={LINKEDIN_URL}>
+                        <LinkedinOutlined />
+                    </a>
                 </Links>
                 <div>
                     <p>© 2023</p>

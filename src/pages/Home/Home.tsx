@@ -119,10 +119,6 @@ export const Home = (props) => {
                 <Advert/>
                 <Advert/>
                 <Advert/>
-                <Advert/>
-                <Advert/>
-                <Advert/>
-                <Advert/>
             </div>
         </Layout>
     )
