@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import {createContext, useContext, useEffect, useState} from "react";
 import { API_BASE_URL } from "../constants";
+import axios from "axios";
+
 
 const UserContext = createContext({
     userData: null,
@@ -9,21 +10,23 @@ const UserContext = createContext({
     logOut: () => {},
     loading: true,
     accessToken: "",
-    statusCode: 0
+    status: 0
 });
+
+axios.defaults.baseURL = API_BASE_URL;
 
 export const AuthProvider = ({ children }) => {
     const cachedUserData = localStorage.getItem("user_data");
     const [userData, setUserData] = useState<any>(cachedUserData ? JSON.parse(cachedUserData) : null);
     const [accessToken, setAccessToken] = useState<string>("");
-    const [statusCode, setStatusCode] = useState<number>(0);
+    const [status, setStatus] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
 
     let requesting = false;
 
     const fetchToken = async (email, password) => {
         return axios(
-            API_BASE_URL + "/uaa/oauth/token",
+            "/uaa/oauth/token",
             {
                 method: "POST",
                 headers: {
@@ -41,7 +44,7 @@ export const AuthProvider = ({ children }) => {
 
     const refreshToken = async (token) => {
         return axios(
-            API_BASE_URL + "/uaa/oauth/token",
+            "/uaa/oauth/token",
             {
                 method: "POST",
                 headers: {
@@ -56,16 +59,9 @@ export const AuthProvider = ({ children }) => {
         )
     }
 
-    const fetchUserData = (token) => {
+    const fetchUserData = () => {
         const fetchUserData = async () => {
-            return axios(
-                API_BASE_URL + "/account/current",
-                {
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    }
-                }
-            )
+            return axios("/account/current")
         }
         fetchUserData().then(res => {
             const data = {
@@ -88,21 +84,23 @@ export const AuthProvider = ({ children }) => {
         fetchToken(email, password)
             .then(res => {
                 setAccessToken(res.data.access_token);
+                setAxiosAuthorization(res.data.access_token);
                 if (rememberMe) {
                     localStorage.setItem('refresh_token', res.data.refresh_token);
                 }
-                setStatusCode(0);
-                fetchUserData(res.data.access_token);
+                setStatus(0);
+                fetchUserData();
                 _setLoading(false);
             })
             .catch(error => {
-                setStatusCode(error.response.status ? error.response.status : 500);
+                setStatus(error.response.status ? error.response.status : 500);
                 _setLoading(false);
             })
     }
 
     const logInOAuth2 = (token) => {
-        fetchUserData(token);
+        setAxiosAuthorization(token);
+        fetchUserData();
         requesting = true;
     }
 
@@ -110,12 +108,13 @@ export const AuthProvider = ({ children }) => {
         refreshToken(token)
             .then(res => {
                 setAccessToken(res.data.access_token);
+                setAxiosAuthorization(res.data.access_token);
                 localStorage.setItem('refresh_token', res.data.refresh_token);
-                setStatusCode(0);
-                fetchUserData(res.data.access_token)
+                setStatus(0);
+                fetchUserData()
             })
             .catch(error => {
-                setStatusCode(error.response.status);
+                setStatus(error.response.status);
                 setLoading(false);
                 localStorage.removeItem('refresh_token');
                 localStorage.removeItem('user_data');
@@ -126,6 +125,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('refresh_token');
         setUserData(null);
         localStorage.removeItem('user_data');
+        setAxiosAuthorization(null);
     }
 
     useEffect(() => {
@@ -137,9 +137,17 @@ export const AuthProvider = ({ children }) => {
         }
     }, [])
 
+    const setAxiosAuthorization = (token) => {
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axios.defaults.headers.common['Authorization'];
+        }
+    }
+
     return (
         <UserContext.Provider
-            value={{ userData, logIn, logInOAuth2, logOut, loading, accessToken, statusCode }}
+            value={{ userData, logIn, logInOAuth2, logOut, loading, accessToken, status }}
         >
             {children}
         </UserContext.Provider>
