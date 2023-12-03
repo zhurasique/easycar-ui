@@ -72,7 +72,6 @@ export const AuthProvider = ({ children }) => {
                 photo: account.photo,
                 roles: res.data.roles
             }
-            console.log(data)
             setUserData(data);
             localStorage.setItem("user_data", JSON.stringify(data));
             setLoading(false);
