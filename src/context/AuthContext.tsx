@@ -64,12 +64,15 @@ export const AuthProvider = ({ children }) => {
             return axios("/account/current")
         }
         fetchUserData().then(res => {
+            const account = res.data.account;
             const data = {
-                email: res.data.username,
-                name: res.data.name,
-                surname: res.data.surname,
-                photo: res.data.photo
+                email: account.username,
+                name: account.name,
+                surname: account.surname,
+                photo: account.photo,
+                roles: res.data.roles
             }
+            console.log(data)
             setUserData(data);
             localStorage.setItem("user_data", JSON.stringify(data));
             setLoading(false);
